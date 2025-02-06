@@ -36,7 +36,25 @@ Explain how the code is not consistent or predictable, then provide an example i
 
 ### Response 2
 
+> This `friends` array is exposed as a public property, allowing it to be modified directly outside the `friendsManager` object. This means that values can be added without any restrictions, bypassing the intended validation in the `addFriend` method. As a result, unintended data types, such as numbers or booleans, can be inserted in the array, leading to unpredictable behavior.
 >
+> Although the `addFriend` method includes a type check to ensure that only strings are added, this safeguard is ineffective when the array is accessed directly. For example, calling `friendsManager.friends.push(42)` circumvents the validation entirely, resulting in an inconsistent data structure. This lack of enforcement makes the object unreliable, as it cannot guarantee that its stored values adhere to the expected format.
+>
+> ```js
+> // Turned friendsManager into a function
+> const friendsManager = () => {
+>   // Turned `friends` variable private aka closure variable
+>   let friends = [];
+>   return {
+>     addFriend(newFriend) {
+>       if (typeof newFriend !== "string") return;
+>       friends.push(newFriend);
+>       // Return a copy of the friends array using rest/spread operator
+>       return [...friends];
+>     },
+>   };
+> };
+> ```
 
 ## Prompt 3
 
