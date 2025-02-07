@@ -13,6 +13,49 @@ Imagine you are teaching a friend about OOP. They mainly want to understand what
 
 ### Response 1
 
+Encapsulation is one of the core pillars of Object-Oriented Programming.
+OOP is the concept of bundling variabls and the methods
+that operate on that data into a class. Encapsulation
+also restricts direct access to some details of an object’s data, protecting
+it from unintended interference and misuse. This is often achieved using access
+modifiers like `private`, `protected`, and `public`.
+
+Encapsulation helps achieve data hiding, which improves security and maintains
+data integrity by preventing external entities from directly modifying the internal
+state of an object. It also promotes modularity and code maintainability.
+
+```js
+class BankAccount {
+  #balance; // Private field
+
+  constructor(balance) {
+    this.#balance = balance;
+  }
+
+  deposit(amount) {
+    if (amount > 0) this.#balance += amount;
+  }
+
+  withdraw(amount) {
+    if (amount > 0 && amount <= this.#balance) this.#balance -= amount;
+  }
+
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+const account = new BankAccount(1000);
+account.deposit(500);
+account.withdraw(200);
+console.log(account.getBalance()); // Output: 1300
+console.log(account.#balance); // Error: Private field is not accessible
+```
+
+1. The #balance field is private, so it cannot be accessed or modified directly.
+2. The deposit and withdraw methods control how the balance is updated.
+3. The getBalance method provides read-only access to the balance.
+
 ## Prompt 2
 
 The following `friendsManager` object is an example of an interface that is **NOT** consistent and predictable:
@@ -64,6 +107,13 @@ How would you explain to a budding developer what the drawbacks of using factory
 
 ### Response 3
 
+Factory functions have drawbacks because they create a new copy of methods for each object,
+leading to higher memory usage and slower performance. Additionally, factory functions do not
+automatically link objects to a prototype, requiring manual setup for shared behavior. This proves that classes are more efficient
+because methods are stored on the prototype, meaning all instances share the same function, reducing
+memory consumption. Classes also support built-in inheritance, faster execution, and `instanceof checks,
+making them the preferred choice for optimized JavaScript applications.
+
 ## Prompt 4
 
 Do some research on the history of when / how classes were introduced into JavaScript and share your findings. Your response should include:
@@ -112,3 +162,11 @@ console.log(alice.greet());
 Provide one point that advocates for the use of this syntax and then provide a counter-argument for the use of classes instead.
 
 ### Response 5
+
+> #### Advocacy for Constructor Functions & Prototype Chain:
+>
+> Using constructor functions and the prototype chain allows for a deeper understanding of JavaScript's prototypal inheritance, method sharing, and the `new` keyword, which is fundamental to how objects and delegation work in the language. This approach provides more flexibility and direct control over prototype manipulation without the syntactic sugar of `class`.
+>
+> #### Counter-Argument for Using Classes:
+>
+> The `class` syntax in JavaScript provides a cleaner, more readable, and more intuitive way to define and work with objects, making the code more maintainable. It aligns with OOP principles in other languages like Java and Python, reducing cognitive overhead for developers transitioning between languages.
